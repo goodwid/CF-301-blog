@@ -16,7 +16,7 @@ Article.prototype.toHtml = function() {
 
   var appTemplate = $('#article-template').html();
   var compileTemplate = Handlebars.compile(appTemplate);
-  var html = compileTemplate(this);
+
 
   // DONE: If your template will use properties that aren't on the object yet, add them.
   //   Since your template can't hold any JS logic, we need to execute the logic here.
@@ -26,7 +26,12 @@ Article.prototype.toHtml = function() {
   this.publishStatus = this.publishedOn ? 'published ' + this.daysAgo + ' days ago' : '(draft)';
 
   // TODO: Use the function that Handlebars gave you to return your filled-in html template for THIS article.
+
+  var html = compileTemplate(this);
+  return html;
+
 };
+
 
 rawData.sort(function(a,b) {
   return (new Date(b.publishedOn)) - (new Date(a.publishedOn));
