@@ -32,14 +32,29 @@ Article.loadAll = function(rawData) {
 // This function will retrieve the data from either a local or remote source,
 // and process it, then hand off control to the View.
 Article.fetchAll = function() {
-  if (localStorage.rawData) {
-    Article.loadAll(JSON.parse(localStorage.rawData));
-    articleView.initIndexPage();
-  } else {
-    $.getJSON('data/hackerIpsum.json', function (rawData) {
-      Article.loadAll(rawData);
-      localStorage.rawData = JSON.stringify(rawData);
-      articleView.initIndexPage();
-    });
-  }
+  var url = 'data/hackerIpsum.json';
+  var eTag;
+  var jqXHR = $.ajax({
+    url: url,
+    type: 'HEAD',
+    dataType: 'json',
+    success: function () {
+      eTag = jqXHR.getResponseHeader('ETag');
+      if ((localStorage.eTag === eTag) && (localStorage.rawData)) {
+        Article.loadAll(JSON.parse(localStorage.rawData));
+        articleView.initIndexPage();
+        console.log('pulled from local');
+      } else {
+        $.getJSON(url, function (rawData) {
+          Article.loadAll(rawData);
+          localStorage.rawData = JSON.stringify(rawData);
+          localStorage.eTag = eTag;
+          articleView.initIndexPage();
+        });
+        console.log('pulled from file');
+      }
+    }
+
+  });
+
 };
