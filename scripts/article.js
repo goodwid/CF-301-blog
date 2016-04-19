@@ -86,8 +86,8 @@
     // written by the specified author.
     return Article.allAuthors().map(function(author) {
       return {
-        // name:
-        // numWords: someCollection.someArrayMethod().map(...).reduce(...), ...
+        name:
+        numWords: .someArrayMethod().map(...).reduce(...), ...
       };
     });
   };
