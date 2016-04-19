@@ -59,7 +59,7 @@
     }
   };
 
-  // TODO: Chain together a `map` and a `reduce` call to get a rough count of all words in all articles.
+  // COMPLETED: Chain together a `map` and a `reduce` call to get a rough count of all words in all articles.
   Article.numWordsAll = function() {
     return Article.all.map(function(article) {
       return article.body.split(' ').length; // Grab the words from the `article` `body`.
@@ -84,10 +84,18 @@
     // TODO: Transform each author string into an object with 2 properties: One for
     // the author's name, and one for the total number of words across the matching articles
     // written by the specified author.
-    return Article.allAuthors().map(function(author) {
+    return Article.allAuthors().map(function(auth) {
       return {
-        name: author
-        //numWords: Article.numWordsAll.map().reduce(...), ...
+        name: auth,
+        numWords: Article.all.map(function (obj) {
+          if (obj.author === auth) {
+            return obj.body.split(' ').length;
+          } else {
+            return 0;
+          }
+        }).reduce(function(a, b) {
+          return a + b;
+        })
       };
     });
   };
