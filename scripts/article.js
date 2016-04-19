@@ -1,6 +1,6 @@
   // DONE: Wrap the entire contents of this file in an IIFE.
   // Pass in to the IIFE a module, upon which objects can be attached for later access.
-// (function(window) {
+(function(module) {
   function Article (opts) {
     this.author = opts.author;
     this.authorUrl = opts.authorUrl;
@@ -62,10 +62,10 @@
   // TODO: Chain together a `map` and a `reduce` call to get a rough count of all words in all articles.
   Article.numWordsAll = function() {
     return Article.all.map(function(article) {
-      return whatShouldIReturn; // Grab the words from the `article` `body`.
+      return article.body.split(' ').length; // Grab the words from the `article` `body`.
     })
     .reduce(function(a, b) {
-      return whatShouldIReturn;// Sum up all the values!
+      return a + b;// Sum up all the values!
     });
   };
 
@@ -86,9 +86,11 @@
     // written by the specified author.
     return Article.allAuthors().map(function(author) {
       return {
-        name:
-        numWords: .someArrayMethod().map(...).reduce(...), ...
+        name: author
+        //numWords: Article.numWordsAll.map().reduce(...), ...
       };
     });
   };
-// }(window));
+
+  module.Article = Article;
+}(window));
