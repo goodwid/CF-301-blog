@@ -100,5 +100,30 @@
     });
   };
 
+  Article.mostUsedWords = function() {
+    var testArray = ['this is','the end','of all the time','in the world'];
+    // return Article.all.map(function (obj) {
+    //   return obj.body;
+    // })
+    wordFreq = {};
+    var x = testArray.reduce(function (a,b) { // make one string containing all text of all articles
+      return a+ ' ' + b;
+    })
+    .split(' ');
+    console.log(x);
+
+    x.forEach(function(a) {
+      console.log(a);
+      if (!wordFreq[a]) {
+        wordFreq[a] = 1;
+      } else {
+        wordFreq[a]++;
+      }
+    });
+
+    console.log(wordFreq);
+
+  };
+
   module.Article = Article;
 }(window));
