@@ -22,7 +22,7 @@
   // COMPLETED: Set up a DB table for articles.
   Article.createTable = function(callback) {
     webDB.execute(
-      'CREATE TABLE articles (title TEXT, category TEXT, author TEXT, authorUrl TEXT, publishedOn TEXT, body TEXT);', // what SQL command do we run here inside these quotes?
+      'CREATE TABLE articles (id INTEGER PRIMARY KEY, title TEXT, category TEXT, author TEXT, authorUrl TEXT, publishedOn TEXT, body TEXT);', // what SQL command do we run here inside these quotes?
       function(result) {
         console.log('Successfully set up the articles table.', result);
         if (callback) callback();
@@ -80,7 +80,7 @@
     webDB.execute(
       [
         {
-          'sql': 'UPDATE articles SET title = (?), category = (?), author = (?), authorUrl = (?), publishedOn = (?), body = (?) WHERE id = (?);',
+          'sql': 'UPDATE articles SET title = (?), category = (?), author = (?), authorUrl = (?), publishedOn = (?), body = (?) WHERE  = (?);',
           'data': [this.title, this.category, this.author, this.authorUrl, this.publishedOn, this.body, this.id]
         }
       ],
