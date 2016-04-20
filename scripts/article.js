@@ -59,27 +59,35 @@
     );
   };
 
-  // TODO: Delete an article instance from the database:
+  // DONE: Delete an article instance from the database:
   Article.prototype.deleteRecord = function(callback) {
     webDB.execute(
       [
         {
-          /* ... */
+          'sql': 'DELETE FROM articles WHERE id = (?);',
+          'data': [this.id]
         }
       ],
-      callback
+      function(result) {
+        console.log('Successfully deleted record from articles.', result);
+        if (callback) callback();
+      }
     );
   };
 
-  // TODO: Update an article instance, overwriting it's properties into the corresponding record in the database:
+  // Completed: Update an article instance, overwriting it's properties into the corresponding record in the database:
   Article.prototype.updateRecord = function(callback) {
     webDB.execute(
       [
         {
-          /* ... */
+          'sql': 'UPDATE articles SET title = (?), category = (?), author = (?), authorUrl = (?), publishedOn = (?), body = (?) WHERE id = (?);',
+          'data': [this.title, this.category, this.author, this.authorUrl, this.publishedOn, this.body, this.id]
         }
       ],
-      callback
+      function(result) {
+        console.log('Successfully updated record in articles.', result);
+        if (callback) callback();
+      }
     );
   };
 
