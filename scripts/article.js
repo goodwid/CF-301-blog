@@ -19,10 +19,10 @@
     return template(this);
   };
 
-  // TODO: Set up a DB table for articles.
+  // COMPLETED: Set up a DB table for articles.
   Article.createTable = function(callback) {
     webDB.execute(
-      '...', // what SQL command do we run here inside these quotes?
+      'CREATE TABLE articles (title TEXT, category TEXT, author TEXT, authorUrl TEXT, publishedOn TEXT, body TEXT)', // what SQL command do we run here inside these quotes?
       function(result) {
         console.log('Successfully set up the articles table.', result);
         if (callback) callback();
