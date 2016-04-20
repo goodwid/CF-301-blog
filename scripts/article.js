@@ -90,13 +90,15 @@
     });
   };
 
-  // TODO: Refactor this to check if the database holds any records or not. If the DB is empty,
+  // COMPLETED: Refactor this to check if the database holds any records or not. If the DB is empty,
   // we need to retrieve the JSON and process it.
   // If the DB has data already, we'll load up the data (sorted!), and then hand off control to the View.
   Article.fetchAll = function(next) {
-    webDB.execute('', function(rows) { // TODO: fill these quotes to 'select' our table.
+    webDB.execute('SELECT * FROM articles;', function(rows) { // COMPLETED: fill these quotes to 'select' our table.
       if (rows.length) {
-        // TODO: Now, 1st - instanitate those rows with the .loadAll function,
+        Article.loadAll(rows);
+        next();
+        // COMPLETED: Now, 1st - instanitate those rows with the .loadAll function,
         // and 2nd - pass control to the view by calling whichever function argument was passed in to fetchAll.
 
       } else {
@@ -104,14 +106,15 @@
           // Cache the json, so we don't need to request it next time:
           rawData.forEach(function(item) {
             var article = new Article(item); // Instantiate an article based on item from JSON
-            // TODO: Cache the newly-instantiated article in the DB: (what can we call on each 'article'?)
-
+            // COMPLETED: Cache the newly-instantiated article in the DB: (what can we call on each 'article'?)
+            article.insertRecord();
           });
           // Now get ALL the records out the DB, with their database IDs:
-          webDB.execute('', function(rows) { // TODO: select our now full table
-            // TODO: Now, 1st - instanitate those rows with the .loadAll function,
+          webDB.execute('SELECT * FROM articles;', function(rows) { // COMPLETED: select our now full table
+            // COMPLETED: Now, 1st - instanitate those rows with the .loadAll function,
             // and 2nd - pass control to the view by calling whichever function argument was passed in to fetchAll.
-
+            Article.loadAll(rows);
+            next();
           });
         });
       }
