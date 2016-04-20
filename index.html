@@ -10,14 +10,19 @@
     <link rel="stylesheet" href="styles/layout.css">
     <link rel="stylesheet" href="styles/modules.css">
 
-    <!--
-      TODO: Add a script tag to hold the Handlebars template.
-        - Be sure to give it a meaningful id attribute.
-        - Move your old template structure to here.
-        - Insert placeholder keys.
-        - If your object doesn't have values you need yet, you can add those properties in the model.
-    -->
-
+    <script id="article-template" type="text/x-handlebars-template">
+      <article class="clearfix" data-author="{{author}}" data-category="{{category}}">
+        <header>
+          <h1>{{title}}</h1>
+          <div class="byline">
+            By <address><a href="{{authorUrl}}">{{author}}</a></address>
+            {{publishStatus}}
+          </div>
+        </header>
+        <section class="article-body">{{{body}}}</section>
+        <a href="#" class="read-on">Read on &rarr;</a>
+      </article>
+    </script>
   </head>
   <body>
     <header class="site-header clearfix">
@@ -72,10 +77,17 @@
       &copy; 2015 Code Fellows | Static Blog | Happy Ipsum!
     </footer>
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
-    <!-- TODO: Include Handlebars.JS from a CDN -->
-    <script src="scripts/blogArticles.js"></script>
-    <script src="scripts/article.js"></script>
-    <script src="scripts/articleView.js"></script>
+    <script src="/vendor/scripts/jquery-2.1.4.js"></script>
+    <script src="/vendor/scripts/handlebars.js"></script>
+    <script src="/vendor/scripts/marked.js"></script>
+    <!-- TODO: Include the script files we need, that give us an API to the WebSQL feature of Chrome: -->
+
+    <script src="/scripts/article.js"></script>
+    <script src="/scripts/articleView.js"></script>
+    <script>
+      // DONE: Ensure that a database table for articles exists, every time we load the page.
+      Article.createTable();
+      Article.fetchAll(articleView.initIndexPage);
+    </script>
   </body>
 </html>
