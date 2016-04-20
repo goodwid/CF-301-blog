@@ -100,5 +100,48 @@
     });
   };
 
+  Article.mostUsedWords = function() {
+    //
+    // this function takes the word count object and returns an object with the top 'count' words by usage.
+    //
+    function topWords (obj, count) {
+      var winner;
+      var rank = [];
+      for (i=0;i<count;i++) {
+        winner = Object.keys(obj)
+        .reduce(function(prev, curr) {
+          return obj[prev] > obj[curr] ? prev : curr;
+        });
+        rank[i] = [winner,obj[winner]];
+        delete obj[winner];
+      }
+      return rank.reduce(function (prev, curr) {
+        prev[curr[0]] = curr[1];
+        return prev;
+      }, {});
+    }
+    wordFreq = {};
+    //
+    //  This chain creates a single object that has each word used in all articles and the number of times each word appears.
+    //  This object is then passed to topWords.
+    //
+    Article.all.map(function (obj) {
+      return obj.body;    // get all text from all articles
+    })
+    .reduce(function (a,b) { // make one string containing all text of all articles
+      return a+ ' ' + b;
+    })
+    .split(' ')
+    .forEach(function(a) {  // using forEach since .map doesn't work
+      // console.log(a);
+      if (!wordFreq[a]) {
+        wordFreq[a] = 1;
+      } else {
+        wordFreq[a]++;
+      }
+    });
+    return topWords(wordFreq,10);
+  };
+
   module.Article = Article;
 }(window));

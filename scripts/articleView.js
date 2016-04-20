@@ -101,6 +101,26 @@
     $('#article-json').val(JSON.stringify(article) + ',');
   };
 
+  //
+  // this function displays the most used words on admin.html.
+  //
+  articleView.displayWordCount = function(data) {
+    var keys = Object.keys(data);
+    var table = '';
+    table += '<table>\n';
+    table += '<tr><th>Word</th><th>Times Used</th><tr>';
+
+    keys.map(function (el) {
+      table += '<tr><td>'+ el + '</td><td>' + data[el] + '</td>\n';
+    });
+    table += '</table>\n';
+    $('#word-count').append(table);
+  };
+
+  // Will finish if there's time.  If not, run Article.mostUsedWords() from the console to see it in action.
+
+
+
   articleView.initIndexPage = function() {
     Article.all.forEach(function(a){
       $('#articles').append(a.toHtml());
@@ -127,6 +147,7 @@
     // DONE: Simply write the correct values to the page:
     $('#blog-stats .articles').text(Article.all.length);
     $('#blog-stats .words').text(Article.numWordsAll());
+    articleView.displayWordCount(Article.mostUsedWords());
   };
 
   module.articleView = articleView;
