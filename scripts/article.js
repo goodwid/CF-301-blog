@@ -64,7 +64,8 @@
     webDB.execute(
       [
         {
-          /* ... */
+          'sql': 'DELETE FROM articles WHERE id = (?);',
+          'data': [this.id]
         }
       ],
       callback
