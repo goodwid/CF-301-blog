@@ -101,28 +101,46 @@
   };
 
   Article.mostUsedWords = function() {
-    var testArray = ['this is','the end','of all the time','in the world'];
-    // return Article.all.map(function (obj) {
-    //   return obj.body;
-    // })
+    //
+    // this function takes the word count object and returns an object with the top 'count' words by usage.
+    //
+    function topWords (obj, count) {
+      var winner;
+      var rank = [];
+      for (i=0;i<count;i++) {
+        winner = Object.keys(obj)
+        .reduce(function(prev, curr) {
+          return obj[prev] > obj[curr] ? prev : curr;
+        });
+        rank[i] = [winner,obj[winner]];
+        delete obj[winner];
+      }
+      return rank.reduce(function (prev, curr) {
+        prev[curr[0]] = curr[1];
+        return prev;
+      }, {});
+    }
     wordFreq = {};
-    var x = testArray.reduce(function (a,b) { // make one string containing all text of all articles
+    //
+    //  This chain creates a single object that has each word used in all articles and the number of times each word appears.
+    //  This object is then passed to topWords.
+    //
+    Article.all.map(function (obj) {
+      return obj.body;
+    })
+    .reduce(function (a,b) { // make one string containing all text of all articles
       return a+ ' ' + b;
     })
-    .split(' ');
-    console.log(x);
-
-    x.forEach(function(a) {
-      console.log(a);
+    .split(' ')
+    .forEach(function(a) {
+      // console.log(a);
       if (!wordFreq[a]) {
         wordFreq[a] = 1;
       } else {
         wordFreq[a]++;
       }
     });
-
-    console.log(wordFreq);
-
+    return topWords(wordFreq,10);
   };
 
   module.Article = Article;

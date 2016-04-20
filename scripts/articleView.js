@@ -101,6 +101,15 @@
     $('#article-json').val(JSON.stringify(article) + ',');
   };
 
+  //
+  // this function displays the most used words on admin.html.
+  //
+  articleView.displayWordCount(data) {
+    $dest = $('.word-count');
+  }
+
+
+
   articleView.initIndexPage = function() {
     Article.all.forEach(function(a){
       $('#articles').append(a.toHtml());
