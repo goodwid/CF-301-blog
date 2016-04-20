@@ -22,7 +22,7 @@
   // COMPLETED: Set up a DB table for articles.
   Article.createTable = function(callback) {
     webDB.execute(
-      'CREATE TABLE articles (title TEXT, category TEXT, author TEXT, authorUrl TEXT, publishedOn TEXT, body TEXT)', // what SQL command do we run here inside these quotes?
+      'CREATE TABLE articles (title TEXT, category TEXT, author TEXT, authorUrl TEXT, publishedOn TEXT, body TEXT);', // what SQL command do we run here inside these quotes?
       function(result) {
         console.log('Successfully set up the articles table.', result);
         if (callback) callback();
@@ -30,25 +30,32 @@
     );
   };
 
-  // TODO: Use correct SQL syntax to delete all records from the articles table.
+  // COMPLETED: Use correct SQL syntax to delete all records from the articles table.
   Article.truncateTable = function(callback) {
     webDB.execute(
-      'DELETE ...;', // <----finish the command here, inside the quotes.
-      callback
+      'DELETE * FROM articles;', // <----finish the command here, inside the quotes.
+      function(result) {
+        console.log('Successfully deleted all records from articles.', result);
+        if (callback) callback();
+      }
     );
   };
 
 
-  // TODO: Insert an article instance into the database:
+  // COMPLETED: Insert an article instance into the database:
   Article.prototype.insertRecord = function(callback) {
+    console.log('insertRecord called');
     webDB.execute(
       [
         {
-          'sql': '...;',
-          'data': [],
+          'sql': 'INSERT INTO articles (title, category, author, authorUrl, publishedOn, body) VALUES (?, ?, ?, ?, ?, ?);',
+          'data': [this.title, this.category, this.author, this.authorUrl, this.publishedOn, this.body]
         }
       ],
-      callback
+      function(result) {
+        console.log('Successfully inserted record into articles.', result);
+        if (callback) callback();
+      }
     );
   };
 
