@@ -126,13 +126,13 @@
     //  This object is then passed to topWords.
     //
     Article.all.map(function (obj) {
-      return obj.body;
+      return obj.body;    // get all text from all articles
     })
     .reduce(function (a,b) { // make one string containing all text of all articles
       return a+ ' ' + b;
     })
     .split(' ')
-    .forEach(function(a) {
+    .forEach(function(a) {  // using forEach since .map doesn't work
       // console.log(a);
       if (!wordFreq[a]) {
         wordFreq[a] = 1;
