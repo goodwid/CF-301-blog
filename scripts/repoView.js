@@ -17,8 +17,7 @@
   repoView.index = function() {
     ui();
 
-    // The jQuery `append` method lets us append an entire array of HTML elements at once,
-    // So we can use a little FP to transform our data-set into DOM nodes:
+    // The jQuery `append` method lets us append an entire array of HTML elements at once, So we can use a little FP to transform our data-set into DOM nodes:
     $('#about ul').append(
       repos.with('name').map(render)
     );
