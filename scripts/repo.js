@@ -4,12 +4,24 @@
   repos.all = [];
 
   repos.requestRepos = function(callback) {
-    // TODO: How would you like to fetch your repos? Don't forget to call the callback.
-    // Hint: What did you learn on Day 6? Use the method that lets you send a HEAD
+    // DONE: How would you like to fetch your repos? Don't forget to call the callback. Hint: What did you learn on Day 6? Use the method that lets you send a HEAD
+
+    var Url = 'https://api.github.com/user/repos';
+    var jqXHR = $.ajax({
+      url : url,
+      type : 'GET',
+      dataType : 'JSON',
+      headers : {
+        "Authorization" : githubToken
+      },
+    }).done( function (data) {
+      data.map( function(obj) {
+        repos.all.push(obj);
+      });
+    });
   };
 
-  // DONE: Model method that filters the full collection for repos with a particular attribute.
-  // You could use this to filter all repos that have a non-zero `forks_count`, `stargazers_count`, or `watchers_count`.
+  // DONE: Model method that filters the full collection for repos with a particular attribute. You could use this to filter all repos that have a non-zero `forks_count`, `stargazers_count`, or `watchers_count`.
   repos.with = function(attr) {
     return repos.all.filter(function(repo) {
       return repo[attr];
