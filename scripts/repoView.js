@@ -1,7 +1,6 @@
 (function(module) {
   var repoView = {};
 
-  // DONE: Private methods declared here live only within the scope of the wrapping IIFE.
   var ui = function() {
     var $about = $('#about'); // Best practice: Cache the DOM query if it's used more than once.
 
@@ -9,11 +8,8 @@
     $about.show().siblings().hide();
   };
 
-  // DONE: Remember that new Handlebars template? Let's compile it!
-  // Save the result in this `render` variable.
   var render = Handlebars.compile($('#repo-template').html());
 
-  // DONE: If all the data is loaded, we can prep the UI and render the repos.
   repoView.index = function() {
     ui();
 
