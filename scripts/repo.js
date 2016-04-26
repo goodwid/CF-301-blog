@@ -19,6 +19,8 @@
       data.map( function(obj) {
         repos.all.push(obj);
       });
+    }).error(function () {
+      console.log('An error occured fetching data from ' + url + '.  Check the number and try your call again.');
     });
     if (callback) {
       callback();
@@ -29,6 +31,13 @@
   repos.with = function(attr) {
     return repos.all.filter(function(repo) {
       return repo[attr];
+    });
+  };
+
+  // We preferred to show only those repos that I was the owner of so we added in a filter for repos by owner.
+  repos.owned = function(owner) {
+    return repos.all.filter(function(repo) {
+      return repo.owner.login === owner;
     });
   };
 
