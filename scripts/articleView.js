@@ -1,14 +1,26 @@
 (function(module) {
 
-  // Configure a view object, to hold all our functions for dynamic updates and article-related event handlers.
   var articleView = {};
+
+  var render = function(article) {
+    var template = Handlebars.compile($('#article-template').text());
+
+    article.daysAgo = parseInt((new Date() - new Date(article.publishedOn))/60/60/24/1000);
+    article.publishStatus = article.publishedOn ? 'published ' + article.daysAgo + ' days ago' : '(draft)';
+    article.body = marked(article.body);
+
+    return template(article);
+  };
 
   articleView.populateFilters = function() {
     $('article').each(function() {
       if (!$(this).hasClass('template')) {
         var val = $(this).find('address a').text();
         var optionTag = '<option value="' + val + '">' + val + '</option>';
-        $('#author-filter').append(optionTag);
+        // Ensure authors listed in the filter are unique
+        if ($('#author-filter option[value="' + val + '"]').length === 0) {
+          $('#author-filter').append(optionTag);
+        }
 
         val = $(this).attr('data-category');
         optionTag = '<option value="' + val + '">' + val + '</option>';
@@ -45,15 +57,6 @@
     });
   };
 
-  articleView.handleMainNav = function() {
-    $('.main-nav').on('click', '.tab', function(e) {
-      $('.tab-content').hide();
-      $('#' + $(this).data('content')).fadeIn();
-    });
-
-    $('.main-nav .tab:first').click();
-  };
-
   articleView.setTeasers = function() {
     $('.article-body *:nth-of-type(n+2)').hide();
 
@@ -65,7 +68,8 @@
   };
 
   articleView.initNewArticlePage = function() {
-    $('.tab-content').show();
+    $('#articles').show().siblings().hide();
+
     $('#export-field').hide();
     $('#article-json').on('focus', function(){
       this.select();
@@ -88,7 +92,7 @@
       publishedOn: $('#article-published:checked').length ? util.today() : null
     });
 
-    $('#articles').append(article.toHtml());
+    $('#articles').append(render(article));
 
     $('pre code').each(function(i, block) {
       hljs.highlightBlock(block);
@@ -100,14 +104,15 @@
   };
 
   articleView.initIndexPage = function() {
-    Article.all.forEach(function(a){
-      $('#articles').append(a.toHtml());
+    $('#articles').show().siblings().hide();
+
+    Article.all.forEach(function(a) {
+      $('#articles').append(render(a));
     });
 
     articleView.populateFilters();
     articleView.handleCategoryFilter();
     articleView.handleAuthorFilter();
-    articleView.handleMainNav();
     articleView.setTeasers();
   };
 
