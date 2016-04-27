@@ -6,9 +6,7 @@
   // TODO: Refactor this ajax call into a get request to the proxy end point provided by server.js.
   repos.requestRepos = function(callback) {
     $.ajax({
-      url: '/github/users/goodwid/repos' +
-            '?per_page=50' +
-            '&sort=updated',
+      url: '/github/user/repos',
       type: 'GET',
       // headers: { 'Authorization': 'token ' + githubToken },
       success: function(data, message, xhr) {
