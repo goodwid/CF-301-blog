@@ -13,6 +13,11 @@
   };
 
   // COMMENT: What does this method do?  What is it's execution path?
+  /*
+  This shows two different methods of populating the filters using the Handlebars template.
+  First method: takes author names from the DOM, uses it to populate the select element.
+  Second method: Takes category names from an SQL query and uses it to populate the select element.
+  */
   articleView.populateFilters = function() {
     var options,
       template = Handlebars.compile($('#option-template').text());
@@ -38,6 +43,10 @@
   };
 
   // COMMENT: What does this method do?  What is it's execution path?
+
+  /*
+    This trims the -filter from the filter ID name, replaces whitespace with +, and calls page() to activate the appropriate controller.
+  */
   articleView.handleFilters = function() {
     $('#filters').on('change', 'select', function() {
       resource = this.id.replace('-filter', '');
